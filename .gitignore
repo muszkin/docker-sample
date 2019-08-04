@@ -1,0 +1,4 @@
+db/var/*
+logs/*
+src/src/
+!logs/.gitignore
