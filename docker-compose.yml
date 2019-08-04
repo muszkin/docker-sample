@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: symfony
+      MYSQL_USER: symfony
+      MYSQL_PASSWORD: symfony
+      MYSQL_ROOT_PASSWORD: symfony
+    volumes:
+      - './db/var:/var/lib/mysql'
+    ports:
+      - '3306:3306'
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+      - 443:443
+    links:
+      - php
+    volumes:
+      - './src:/var/www/html:cached'
+      - './logs:/var/log/nginx:cached'
+  php:
+    build: ./php
+    ports:
+      - '8080:8080'
+    volumes:
+      - './src:/var/www/html:cached'
+      - './logs:/var/www/html/src/var/logs:cached'
+    links:
+      - db
